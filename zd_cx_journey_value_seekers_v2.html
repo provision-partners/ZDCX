@@ -1,0 +1,316 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:sans-serif;background:#fff;color:#1a1a1a}
+.wrap{background:#fff;border:0.5px solid #e0ddd6}
+.seg-header{padding:16px 24px 14px;border-bottom:0.5px solid #e0ddd6;background:#f7f6f2}
+.seg-title{font-size:18px;font-weight:500;color:#1a1a1a;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.seg-dot{width:12px;height:12px;border-radius:50%;background:#E8593C;flex-shrink:0}
+.seg-meta{font-size:13px;color:#5a5956;line-height:1.6}
+.seg-personas{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.persona-tag{font-size:12px;padding:3px 11px;border-radius:3px;background:#fdf0ec;color:#993c1d;border:0.5px solid #f0997b}
+.stage-nav{display:flex;gap:0;padding:12px 24px;overflow-x:auto;border-bottom:0.5px solid #e0ddd6;background:#fff;align-items:center}
+.spill{padding:5px 14px;font-size:12px;cursor:pointer;border:0.5px solid #d0cec8;background:transparent;color:#5a5956;border-radius:20px;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.spill:hover{border-color:#a0a09a;color:#1a1a1a}
+.spill.active{background:#E8593C;border-color:#E8593C;color:#fff;font-weight:500}
+.spill.disruption.active{background:#534AB7;border-color:#534AB7}
+.sarr{color:#c0bdb8;font-size:12px;padding:0 5px;flex-shrink:0}
+.view-bar{display:flex;align-items:center;gap:8px;padding:10px 24px;border-bottom:0.5px solid #e0ddd6;background:#f7f6f2}
+.view-label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888780;font-weight:500;margin-right:4px}
+.vbtn{padding:5px 16px;font-size:12px;cursor:pointer;border:0.5px solid #d0cec8;background:transparent;color:#5a5956;border-radius:3px;transition:all .15s}
+.vbtn:hover{background:#f0ede8}
+.vbtn.active{background:#fff;border-color:#a0a09a;color:#1a1a1a;font-weight:500}
+.body{display:grid;grid-template-columns:220px 1fr;min-height:520px}
+.sidebar{border-right:0.5px solid #e0ddd6;padding:18px 16px;background:#f7f6f2;overflow-y:auto}
+.slabel{font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:#888780;margin-bottom:8px;font-weight:500}
+.intent-card{border-left:3px solid #E8593C;padding:10px 12px;background:#fff;border-radius:0 6px 6px 0;margin-bottom:16px}
+.intent-card.disruption{border-left-color:#534AB7}
+.intent-text{font-size:13px;color:#5a5956;line-height:1.6;font-style:italic}
+.ssec{margin-bottom:16px}
+.sitem{font-size:13px;color:#5a5956;padding:4px 0;border-bottom:0.5px solid #e0ddd6;line-height:1.5}
+.sitem:last-child{border-bottom:none}
+.emo-wrap{margin-top:4px}
+.emo-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.emo-name{font-size:12px;color:#5a5956;width:90px;flex-shrink:0}
+.emo-track{flex:1;height:7px;background:#e8e5e0;border-radius:4px;overflow:hidden}
+.emo-fill{height:100%;border-radius:4px}
+.emo-pct{font-size:11px;color:#888780;width:28px;text-align:right;flex-shrink:0}
+.content{padding:22px 26px;overflow-y:auto;background:#fff}
+.stage-title{font-size:17px;font-weight:500;color:#1a1a1a;margin-bottom:4px}
+.stage-desc{font-size:14px;color:#5a5956;line-height:1.7;margin-bottom:18px;max-width:780px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:14px}
+.card{background:#f7f6f2;border-radius:8px;padding:14px 16px;border:0.5px solid #e0ddd6}
+.card.white{background:#fff}
+.clabel{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888780;margin-bottom:9px;font-weight:500}
+.card ul{padding-left:16px}
+.card li{font-size:13px;color:#3d3d3a;margin-bottom:5px;line-height:1.6}
+.card li:last-child{margin-bottom:0}
+.fullcard{grid-column:1/-1}
+.lane-head{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;font-weight:500;padding:5px 9px;border-radius:3px;margin-bottom:7px;display:inline-block}
+.lh-front{color:#0c447c;background:#e6f1fb;border:0.5px solid #85b7eb}
+.lh-back{color:#3d3d3a;background:#f1efe8;border:0.5px solid #d3d1c7}
+.lh-tech{color:#633806;background:#faeeda;border:0.5px solid #ef9f27}
+.lh-people{color:#3c3489;background:#eeedfe;border:0.5px solid #afa9ec}
+.lh-process{color:#27500a;background:#eaf3de;border:0.5px solid #97c459}
+.lh-systems{color:#791f1f;background:#fcebeb;border:0.5px solid #f09595}
+.lane-body{font-size:13px;color:#3d3d3a;line-height:1.65;padding:11px 13px;background:#fff;border-radius:6px;border:0.5px solid #e0ddd6}
+.lane-body ul{padding-left:15px}
+.lane-body li{margin-bottom:4px}
+.lane-body li:last-child{margin-bottom:0}
+.disrupt-box{background:#eeedfe;border:0.5px solid #afa9ec;border-radius:8px;padding:13px 16px;margin-bottom:14px}
+.disrupt-label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#3c3489;font-weight:500;margin-bottom:6px}
+.disrupt-text{font-size:13px;color:#3c3489;line-height:1.7}
+.tier-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.tier-card{background:#fff;border-radius:6px;border:0.5px solid #e0ddd6;padding:10px 12px}
+.tier-num{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#888780;font-weight:500;margin-bottom:4px}
+.tier-name{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:4px}
+.tier-desc{font-size:12px;color:#5a5956;line-height:1.5}
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Value and Deal Seekers customer experience journey map across seven stages with experience and service blueprint views</h2>
+
+<div class="wrap">
+
+<div class="seg-header">
+  <div class="seg-title"><span class="seg-dot"></span>Value &amp; Deal Seekers — Customer Experience Journey</div>
+  <div class="seg-meta">Project Pathways &middot; ZD Shopping properties (RetailMeNot US &middot; VoucherCodes UK) &middot; Draft for review</div>
+  <div class="seg-personas">
+    <span class="persona-tag">Frugal Deal Hunter</span>
+    <span class="persona-tag">Subscribed Saver</span>
+    <span class="persona-tag">Spontaneous Weekender</span>
+    <span class="persona-tag">Family Value Planner</span>
+  </div>
+</div>
+
+<div class="stage-nav" id="snav"></div>
+
+<div class="view-bar">
+  <span class="view-label">View</span>
+  <button class="vbtn active" id="v-exp" onclick="setView('exp')">Experience map — frontstage</button>
+  <button class="vbtn" id="v-bp" onclick="setView('bp')">Service blueprint — backstage</button>
+</div>
+
+<div class="body">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="content" id="content"></div>
+</div>
+
+</div>
+
+<script>
+const STAGES=[
+  {id:'discover',label:'Discover',intent:'Make great travel feel like an obvious choice'},
+  {id:'plan',label:'Plan & Compare',intent:'Simplify decisions and reduce uncertainty'},
+  {id:'book',label:'Book',intent:'Turn intent into confident commitment'},
+  {id:'pretrip',label:'Pre-Trip',intent:'Keep confidence intact as the trip approaches'},
+  {id:'intrip',label:'In-Trip',intent:'Stay focused on the experience, not the logistics'},
+  {id:'disruption',label:'Disruption',intent:'Resolve issues seamlessly, if needed',special:true},
+  {id:'posttrip',label:'Post-Trip',intent:'Leave travellers feeling rewarded for choosing ZD'},
+];
+
+const DATA={
+  discover:{
+    desc:'First contact with the travel offering within a familiar deal-browsing context. Travellers are curious and cautiously optimistic — they need to feel the saving is real, the brand is credible, and the decision will not be complicated.',
+    goals:['Find credible, good-value travel options — clearly presented','Understand meaningful trade-offs at a glance (price vs. flexibility)','Feel this is a trustworthy extension of a platform they already use'],
+    actions:['Explores destinations and packages on RMN / VoucherCodes','Scans headline prices and strike-through savings','Scans inclusions and flexibility highlights','Shares a deal with a partner via WhatsApp or text'],
+    emotions:{curious:80,optimistic:65,confident:40,anxious:25,frustrated:15},
+    touchpoints:['RMN / VoucherCodes homepage — travel category entry point','Clear value and flexibility indicators alongside strike-through pricing','Deal newsletter or push notification','Social retargeting for returning visitors','Price-drop alert sign-up prompt'],
+    front:['Prominent strike-through pricing with a clearly stated saving amount','Travel category clearly labelled in main navigation','"Members save up to X%" headline badge at category entry','Flash deal countdown for genuinely time-sensitive offers','Flexibility highlight alongside price: cancellation and change terms visible at first glance'],
+    back:['Travel category pages built and indexed in RMN / VC CMS','Booking engine inventory feed connected with current pricing','Deal newsletter segmentation: travel sub-list populated from existing subscriber base','Banner and category creative assets produced and signed off'],
+    tech:['Booking engine inventory API connected to RMN / VoucherCodes CMS','Email platform: travel deal alert trigger configured','CDN: fast page load mandatory — deal urgency is speed-sensitive','Analytics: travel category click-tracking and source attribution live'],
+    people:['CRM team: travel newsletter segment defined and loaded','Editorial and creative team: banner and category page assets','Platform provider: onboarding support during integration'],
+    process:['Inventory freshness SLA: pricing feed updated at least every four hours','Deal alert sign-up: double opt-in with travel preference capture','Creative and legal review: all promotional claims signed off before publication'],
+    systems:['White-label booking engine: inventory and pricing API','Email platform with segmentation and trigger capability','CDN for asset delivery','Analytics with travel funnel event tracking'],
+  },
+  plan:{
+    desc:'The traveller is actively comparing options. Price is still the primary filter but trust signals now matter — they want to know there will be no surprises. The Family Value Planner is researching child supplements and room sizing. The Spontaneous Weekender wants minimum friction. The risk of losing them to another tab is highest at this stage.',
+    goals:['Feel fully informed about choices and contingencies before committing','Reduce uncertainty: understand exactly what is and is not included','Review change and refund conditions in plain language'],
+    actions:['Compares options side by side on price and inclusions','Reviews change and refund conditions','Uses scenario previews where available ("what if I need to cancel?")','Family Planner: checks child supplement costs and room sizing','Spontaneous Weekender: checks last-minute availability and flexibility'],
+    emotions:{curious:60,optimistic:55,confident:45,anxious:55,frustrated:40},
+    touchpoints:['Side-by-side comparison view for packages or hotel options','Scenario previews — "what if I need to change or cancel?"','Change and refund policy summary in plain language, not buried in T&Cs','Plain-language disruption policy overview','Child supplement and room size disclosure for family bookings'],
+    front:['Total cost shown early — no late fee surprises at checkout','Plain-language change and refund summary on every option','Family filter: children welcome, room sizing, and child supplement disclosed upfront','Side-by-side comparison with key differences highlighted','Social proof: "X people booked this week" to validate demand'],
+    back:['Package data completeness audit: all options must have room type, child policy, and inclusions populated before display','Competitor price monitoring configured to support parity display','Plain-language policy extraction: T&Cs converted to plain-English summaries for every supplier','Review aggregation feed integrated and refreshed regularly'],
+    tech:['Booking engine: family filter and room-type data exposed in search results','Review aggregation API (e.g. TripAdvisor, Google)','Price parity monitoring tool or manual SLA process','Analytics: consideration drop-off tracking by device and persona segment'],
+    people:['Content team: plain-English policy summary standards defined and applied','Booking platform: family filter taxonomy configured in inventory','Legal: minimum disclosure requirements for change and refund terms reviewed'],
+    process:['Supplier data quality gate: no option displayed without complete room, child policy, and inclusion data','Plain-language review cycle: policy summaries checked for accuracy every 60 days','Cancellation policy: displayed at search results level, not only at checkout'],
+    systems:['Booking engine: family filter and room-type API','Review aggregation API','Plain-language policy extraction (manual or AI-assisted)','Analytics with consideration-stage funnel events'],
+  },
+  book:{
+    desc:'The traveller has chosen and is entering the booking flow. This is the highest drop-off risk point in the journey. Unexpected fees cause immediate abandonment. The Spontaneous Weekender abandons on any friction. The Family Planner may pause for partner sign-off. The booking must feel like a confident commitment, not a leap of faith.',
+    goals:['Commit with confidence — no surprises at checkout','Confirm the saving is real and locked in at payment','Set personal preferences for changes or refunds if needed'],
+    actions:['Selects package or travel options and any add-ons','Applies voucher or promo code','Sets change or refund preference where the option is available','Reviews price breakdown before paying','Completes payment and receives immediate confirmation'],
+    emotions:{curious:40,optimistic:60,confident:55,anxious:65,frustrated:45},
+    touchpoints:['Checkout experience — white-label, RMN / VC branded','Voucher or promo code entry field — visible and functional','Price breakdown at checkout: itemised before final payment','Confirmation page: platform reference and supplier reference both shown','Confirmation email sent within two minutes of payment'],
+    front:['Guest checkout: no forced account creation as a barrier','Voucher or promo code field clearly positioned','Itemised price summary: base price, supplements, taxes, and total — all before the payment button','Clear ancillary toggles for insurance, parking, and transfers — optional, not forced','Instant on-screen confirmation with both a platform reference and a supplier reference'],
+    back:['Checkout configured for RMN / VC brand identity','Payment gateway configured and tested (PCI DSS compliant)','Fraud and address verification screening active','Booking confirmation email template live and tested','CRM: new booking record created immediately on confirmation'],
+    tech:['White-label booking engine with RMN / VC brand configuration','Payment gateway (PCI DSS compliant) with fraud and AVS screening','Booking confirmation email system — delivery SLA: within two minutes','CRM: booking data ingestion pipeline'],
+    people:['Platform provider handles travel licensing, compliance, and payment processing','Customer support team briefed on booking confirmation query handling','Legal: T&Cs and cancellation terms display requirements signed off'],
+    process:['Pre-launch checkout testing: full end-to-end booking flow tested across desktop and mobile','Price disclosure gate: no booking can proceed without itemised total displayed','Confirmation SLA: email delivered within two minutes, monitored and alerted if breached'],
+    systems:['White-label booking engine','Payment gateway with PCI compliance and fraud screening','CRM with booking record creation','Email delivery platform with SLA monitoring','Travel licensing and regulatory compliance managed by platform provider'],
+  },
+  pretrip:{
+    desc:'The booking is confirmed. The traveller\'s confidence must be sustained between payment and departure. The Family Planner re-reads every detail. The Subscribed Saver is open to deal reinforcement. The primary risk in this window is buyer remorse leading to cancellation. Proactive, useful communication is the remedy.',
+    goals:['Feel reassured that the booking is solid and all details are correct','Receive practical trip information without having to search for it','Avoid last-minute surprises — know the itinerary and what to expect'],
+    actions:['Reads confirmation email in full','Checks whether a better deal has appeared elsewhere (buyer remorse risk)','Reviews itinerary details and supplier confirmations','Family Planner: saves packing lists, checks passport validity for children','Subscribed Saver: looks for ancillary add-ons at a deal price'],
+    emotions:{curious:50,optimistic:70,confident:60,anxious:40,frustrated:20},
+    touchpoints:['Booking confirmation email — complete and operational','T-30 email: trip confirmed with itinerary summary','T-14 email: destination guide and practical preparation tips','T-7 email: final checklist — check-in times, what to bring, supplier contacts','Live trip status accessible at any point from the confirmation email','Pre-trip checklist available in account or via confirmation link'],
+    front:['T-30: itinerary confirmation with key details and supplier contacts','T-14: destination guide, local tips, and packing suggestions relevant to the booking type','T-7: final pre-trip checklist covering check-in, documents, and contact numbers','Supplier confirmations: hotel and flight or transfer reference numbers confirmed','Optional ancillary add-on offer in pre-trip communications if not taken at booking'],
+    back:['Pre-trip email sequence triggered automatically from CRM on booking confirmation','Supplier confirmation re-validated at T-7 by back-office team or automated feed','Content: destination guide library mapped to destination codes','Ancillary retargeting: insurance or parking reminder if not purchased at booking','Buyer remorse monitoring: cancellations within 48 hours flagged for recovery outreach'],
+    tech:['CRM: pre-trip drip campaign triggered from booking confirmation event','Booking management API: live trip status view for traveller','Supplier confirmation feed: T-7 automated re-validation','Email platform: pre-trip sequence with branching logic (ancillary purchased or not)'],
+    people:['CRM team: pre-trip sequence setup, tested, and signed off','Editorial team: destination content library maintained and accurate','Platform provider: booking management support for customer-initiated changes','Back-office team: T-7 supplier confirmation re-validation process'],
+    process:['Pre-trip sequence SLA: T-30, T-14, and T-7 emails sent on schedule with no missed triggers','Supplier confirmation re-validation: completed by T-7 for all live bookings','Cancellation recovery: 48-hour post-booking cancellations flagged and responded to within 24 hours'],
+    systems:['CRM with event-triggered pre-trip sequence and branching logic','Booking management API for live trip status','Supplier confirmation feed','Email platform','Live trip status view accessible to traveller from confirmation email'],
+  },
+  intrip:{
+    desc:'The traveller is on their trip. In normal operations the platform\'s role is to be invisible — the trip should simply work. If contact is needed, it must be fast and easy to access. A single moment of confusion or unavailability can undermine the entire experience for this segment.',
+    goals:['Enjoy the trip without distraction from logistics','Know that help is immediately available if something goes wrong','Travel with confidence that the platform has their back'],
+    actions:['Checks in at the hotel or boards the flight','References the booking confirmation for check-in details','Contacts support only if an issue arises','Family Planner: may seek reassurance if any complexity arises involving children'],
+    emotions:{curious:30,optimistic:80,confident:65,anxious:25,frustrated:15},
+    touchpoints:['Booking confirmation as in-trip reference document — all key details in one place','24/7 support contact clearly visible in confirmation email and account','In-trip support: chat or phone via platform provider','Emergency contact options for urgent situations'],
+    front:['"Your trip is live" communication: key details in a single mobile-friendly view','24/7 support number and chat link prominently included in all in-trip communications','Hotel and transfer direct contact numbers pre-populated in trip summary','Simple, unambiguous support process — one number or one chat link'],
+    back:['In-trip monitoring: supplier status feed checked for known disruptions affecting live bookings','Support team routing: in-trip queries prioritised and handled within SLA','Booking management: changes available if traveller needs to modify in-trip','Social monitoring: ZD brand mentions tracked for in-trip issues raised publicly'],
+    tech:['Booking management portal for in-trip changes','Supplier disruption status feed (airline and hotel status monitoring)','CRM: in-trip case management and resolution tracking','Social listening tool: real-time brand mention monitoring'],
+    people:['Customer support team: trained on booking system and in-trip query handling','Platform provider: 24/7 support coverage available per contractual terms','Escalation path defined: ZD front-line support → platform provider specialist → supplier direct'],
+    process:['In-trip support SLA: first response within one hour during business hours; emergency contact available 24/7','Escalation protocol: criteria defined for when ZD escalates to platform provider and when to escalate to supplier','In-trip issue log: all contacts recorded in CRM with resolution outcome'],
+    systems:['In-trip booking management portal','Airline and hotel status feeds','CRM in-trip case management','Social listening platform'],
+  },
+  disruption:{
+    desc:'A flight is cancelled, a hotel is overbooked, a transfer fails to appear. For a price-sensitive traveller who booked in good faith, disruption that is left to self-resolve feels like a betrayal. Resolution speed is the most important variable — a fast, owned response converts a potential complaint into a loyalty moment.',
+    goals:['Get the problem resolved immediately without having to fight for it','Not spend personal money to bridge the gap while waiting for resolution','Feel protected and supported, not abandoned to resolve it alone'],
+    actions:['Receives a proactive alert about the disruption — ideally before arriving at the airport','Reviews or accepts the resolution option presented','Contacts support if the automated resolution is not satisfactory','Files a travel insurance claim if the disruption is significant'],
+    emotions:{curious:10,optimistic:10,confident:15,anxious:90,frustrated:80},
+    touchpoints:['Proactive disruption notification via push, SMS, or email','Clear notification: what has changed and what ZD is doing about it','Simple rebooking or refund options — one click where possible','Human support available: phone and chat','Insurance claim initiation if required'],
+    disruptNote:'The standard OTA model leaves the traveller to self-resolve — they call the airline, call the hotel, and piece together a solution independently. ZD\'s differentiation is to own the disruption: proactive detection, managed rebooking, and a clear commitment communicated before the traveller has to ask. The platform provider\'s compliance infrastructure (licensing, refund processing, supplier API access) provides the operational foundation. The key design decision is whether ZD invests in proactive monitoring and empowered-agent capability to make this real at launch.',
+    front:['Proactive alert sent as soon as a disruption affecting the booking is detected — before the traveller reaches the airport if possible','Clear notification: what has changed, what options are available, what ZD is doing','Simple rebooking or refund options: ideally one-click acceptance, not a multi-step form','Regular status updates until fully resolved — traveller is never left without communication','Human support: phone and chat available, with short wait times during disruption events'],
+    back:['Disruption monitoring: airline and hotel status feeds checked continuously against all live bookings','Proactive alert trigger: automated notification sent when a confirmed disruption matches a live booking','Support triage: disruption cases flagged as P1 and routed to specialist support tier','Rebooking API access: agent can rebook on traveller\'s behalf without manual supplier contact','Insurance warm handoff: claims process initiated with traveller\'s support where insurance was purchased'],
+    tech:['Airline disruption feeds (e.g. OAG, FlightAware or equivalent) monitored live against active bookings','Rebooking API: agents can action alternative bookings without manual supplier contact','Proactive alert system: automated trigger when disruption matches a live booking','CRM: P1 case management — full booking context available to agent on case open','Insurance provider integration for warm handoff to claims'],
+    people:[
+      'Tier 1 — Self-service and AI: automated rebooking acceptance, status updates, simple refund initiation',
+      'Tier 2 — General support agents: non-automated resolution, traveller preference confirmation, ancillary adjustments',
+      'Tier 3 — Specialist disruption support: complex IRROPS, multi-leg rebooking, high-value cases, supplier negotiation'
+    ],
+    process:['Disruption response playbook: pre-defined decision trees for flight cancellation, hotel overbook, transfer failure, and weather events','Agent spend authority: pre-approved rebooking budget per disruption type — agents act without escalation up to defined threshold','SLA: proactive notification within 30 minutes of detection; resolution offer presented within two hours','Post-disruption review: all P1 cases reviewed within 48 hours for process improvement','Compensation policy: defined and documented — traveller does not need to request it'],
+    systems:['Airline and hotel real-time status feeds','Rebooking API with agent authorisation tiers (capability subject to platform provider agreement)','CRM P1 case management with booking context on case open','Proactive alert system: push, SMS, email','Insurance partner integration or warm handoff process','Refund processing: managed by platform provider per their compliance framework','Incident monitoring dashboard: live view of all active disruption cases'],
+  },
+  posttrip:{
+    desc:'The trip is over. This segment will return if the value proposition held. The Family Planner is already thinking about next year. The Subscribed Saver will re-engage when a relevant deal arrives. Loyalty in this segment is price-conditional, but a well-managed experience — especially if any disruption was handled well — creates meaningful retention.',
+    goals:['Feel treated fairly and valued, especially if anything went wrong','Confirm any outstanding refunds or credits have been processed','Share the experience with friends, family, or the platform if prompted well'],
+    actions:['Receives and reads the post-trip summary','Confirms any refund or credit has been processed correctly','Shares feedback if the process is simple and quick','Browses next deals passively','Family Planner: begins thinking about next year\'s holiday'],
+    emotions:{curious:50,optimistic:65,confident:70,anxious:15,frustrated:15},
+    touchpoints:['Post-trip summary email — personalised recap','Refund or credit tracking: visible in account and confirmed by email','Post-trip review request: simple and fast — star rating first, detail optional','Loyalty or appreciation acknowledgement: returning booker recognised','Next deal suggestion: destination-matched, timed to the re-engagement window'],
+    front:['T+2: post-trip summary with a "how was your trip?" prompt (1–5 stars, then optional detail)','Outstanding refunds or credits confirmed in post-trip email — exact amounts, not "pending"','Loyalty acknowledgement: returning booker status noted with a small benefit communicated','T+7: next deal suggestion — destination-matched based on prior booking type','Referral CTA: "Tell a friend" with a simple sharing mechanism and a clear benefit for both parties'],
+    back:['Post-trip email triggered from booking CRM at T+2 (trip end date plus two days)','Refund or credit status confirmed and displayed in account within three working days of trip end','Review request linked to booking record','Next deal engine: basic destination-match recommendation from prior booking data','Referral tracking: attribution and reward fulfilment process active','CRM: returning booker status activated on second confirmed booking'],
+    tech:['CRM: post-trip trigger sequence from trip end date event','Review collection and moderation platform','Refund status tracking display in account and email','Next deal recommendation engine (destination and timing match)','Referral attribution and tracking system'],
+    people:['CRM team: post-trip sequence QA and timing verification','Finance team: refund processing within agreed SLA','Content team: post-trip editorial hooks (next year planning, seasonal deals)','Review moderation: responses to negative reviews within 48 hours'],
+    process:['Refund processing SLA: completed and confirmed within three working days of trip end','Post-trip review request: sent at T+2, reminder at T+5 if no response','Negative review response: reviewed and responded to within 48 hours','Returning booker status activated in CRM on second confirmed booking'],
+    systems:['CRM with post-trip trigger sequence and returning booker LTV tagging','Refund status tracking display','Review platform integrated with booking record','Next deal recommendation engine','Referral tracking with reward fulfilment','Financial mechanisms for timely refund processing'],
+  },
+};
+
+let aSt=0,aV='exp';
+
+function renderNav(){
+  document.getElementById('snav').innerHTML=STAGES.map((s,i)=>`
+    <button class="spill${i===aSt?' active':''}${s.special?' disruption':''}" onclick="setStg(${i})">${s.label}</button>
+    ${i<STAGES.length-1?'<span class="sarr">&#8250;</span>':''}
+  `).join('');
+}
+
+function renderSide(){
+  const s=STAGES[aSt];
+  const d=DATA[s.id];
+  const isD=s.special;
+  const emoCols={curious:'#0F6E56',optimistic:'#BA7517',confident:'#534AB7',anxious:'#993C1D',frustrated:'#993556'};
+  document.getElementById('sidebar').innerHTML=`
+    <div style="margin-bottom:16px">
+      <div class="slabel">Stage intent</div>
+      <div class="intent-card${isD?' disruption':''}">
+        <div class="intent-text">"${s.intent}"</div>
+      </div>
+    </div>
+    <div class="ssec">
+      <div class="slabel">Emotional temperature</div>
+      <div class="emo-wrap">
+        ${Object.entries(d.emotions).map(([k,v])=>`
+          <div class="emo-row">
+            <span class="emo-name">${k}</span>
+            <div class="emo-track"><div class="emo-fill" style="width:${v}%;background:${emoCols[k]||'#888'}"></div></div>
+            <span class="emo-pct">${v}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="ssec">
+      <div class="slabel">Properties</div>
+      <div class="sitem">RetailMeNot (US)</div>
+      <div class="sitem">VoucherCodes (UK)</div>
+    </div>
+    <div class="ssec">
+      <div class="slabel">Personas</div>
+      <div class="sitem">Frugal Deal Hunter</div>
+      <div class="sitem">Subscribed Saver</div>
+      <div class="sitem">Spontaneous Weekender</div>
+      <div class="sitem">Family Value Planner</div>
+    </div>
+  `;
+}
+
+function renderContent(){
+  const s=STAGES[aSt];
+  const d=DATA[s.id];
+  const isD=s.special;
+  let html=`<div class="stage-title">${s.label}${isD?' — Disruption Handling':''}</div><div class="stage-desc">${d.desc}</div>`;
+  if(isD&&d.disruptNote){
+    html+=`<div class="disrupt-box"><div class="disrupt-label">Design note — differentiation opportunity</div><div class="disrupt-text">${d.disruptNote}</div></div>`;
+  }
+  if(aV==='exp'){
+    html+=`<div class="grid2">
+      <div class="card"><div class="clabel">Customer goals</div><ul>${d.goals.map(g=>`<li>${g}</li>`).join('')}</ul></div>
+      <div class="card"><div class="clabel">Customer actions</div><ul>${d.actions.map(a=>`<li>${a}</li>`).join('')}</ul></div>
+    </div>
+    <div class="card fullcard"><div class="clabel">Key touchpoints</div><ul>${d.touchpoints.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;
+  } else {
+    if(isD){
+      html+=`<div class="grid2">
+        <div class="card white"><div class="lane-head lh-front">On stage — visible to traveller</div><div class="lane-body"><ul>${d.front.map(f=>`<li>${f}</li>`).join('')}</ul></div></div>
+        <div class="card white"><div class="lane-head lh-back">Backstage — operations</div><div class="lane-body"><ul>${d.back.map(b=>`<li>${b}</li>`).join('')}</ul></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card white"><div class="lane-head lh-tech">Technology &amp; systems</div><div class="lane-body"><ul>${d.tech.map(t=>`<li>${t}</li>`).join('')}</ul></div></div>
+        <div class="card white"><div class="lane-head lh-process">Process &amp; playbooks</div><div class="lane-body"><ul>${d.process.map(p=>`<li>${p}</li>`).join('')}</ul></div></div>
+      </div>
+      <div class="card white fullcard"><div class="lane-head lh-people">People — tiered support model</div>
+        <div class="tier-grid">${d.people.map((p,i)=>{
+          const labs=['Tier 1','Tier 2','Tier 3'];
+          const names=['Self-service &amp; AI assistance','General support agents','Specialist disruption support'];
+          const parts=p.split(':');
+          return `<div class="tier-card"><div class="tier-num">${labs[i]}</div><div class="tier-name">${names[i]}</div><div class="tier-desc">${parts.length>1?parts[1].trim():p}</div></div>`;
+        }).join('')}</div>
+      </div>`;
+    } else {
+      html+=`<div class="grid2">
+        <div class="card white"><div class="lane-head lh-front">On stage — visible to traveller</div><div class="lane-body"><ul>${d.front.map(f=>`<li>${f}</li>`).join('')}</ul></div></div>
+        <div class="card white"><div class="lane-head lh-back">Backstage — operations</div><div class="lane-body"><ul>${d.back.map(b=>`<li>${b}</li>`).join('')}</ul></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card white"><div class="lane-head lh-tech">Technology &amp; systems</div><div class="lane-body"><ul>${d.tech.map(t=>`<li>${t}</li>`).join('')}</ul></div></div>
+        <div class="card white"><div class="lane-head lh-people">People &amp; responsibilities</div><div class="lane-body"><ul>${d.people.map(p=>`<li>${p}</li>`).join('')}</ul></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card white"><div class="lane-head lh-process">Process &amp; standards</div><div class="lane-body"><ul>${d.process.map(p=>`<li>${p}</li>`).join('')}</ul></div></div>
+        <div class="card white"><div class="lane-head lh-systems">Supporting systems &amp; agreements</div><div class="lane-body"><ul>${d.systems.map(s=>`<li>${s}</li>`).join('')}</ul></div></div>
+      </div>`;
+    }
+  }
+  document.getElementById('content').innerHTML=html;
+}
+
+function setStg(i){aSt=i;renderNav();renderSide();renderContent();}
+function setView(v){
+  aV=v;
+  document.getElementById('v-exp').classList.toggle('active',v==='exp');
+  document.getElementById('v-bp').classList.toggle('active',v==='bp');
+  renderContent();
+}
+renderNav();renderSide();renderContent();
+</script>
