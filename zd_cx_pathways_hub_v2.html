@@ -1,0 +1,441 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:sans-serif;background:#fff;color:#1a1a1a}
+.pg{background:#fff;border:0.5px solid #e0ddd6}
+.hdr{padding:20px 28px 16px;border-bottom:0.5px solid #e0ddd6;background:#f7f6f2}
+.eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888780;font-weight:500;margin-bottom:5px}
+.hdr-title{font-size:21px;font-weight:500;color:#1a1a1a;margin-bottom:5px}
+.hdr-sub{font-size:13px;color:#5a5956;line-height:1.7;max-width:680px}
+.hdr-tags{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.htag{font-size:11px;color:#888780;background:#ebe9e4;padding:3px 10px;border-radius:3px}
+.breadcrumb{display:flex;align-items:center;gap:6px;padding:9px 28px;border-bottom:0.5px solid #e0ddd6;background:#fff;font-size:12px;color:#888780;flex-wrap:wrap}
+.bc-link{color:#E8593C;cursor:pointer}
+.bc-link:hover{text-decoration:underline}
+.bc-sep{color:#d0cdc8}
+.bc-cur{color:#5a5956}
+.body{padding:24px 28px 32px}
+.sec-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888780;font-weight:500;margin-bottom:14px}
+
+.stages-scroll{overflow-x:auto;padding-bottom:4px}
+.stages-row{display:flex;align-items:stretch;width:max-content}
+.stage-card{width:162px;border-radius:8px;overflow:hidden;flex-shrink:0;border:0.5px solid}
+.sc-hd{padding:9px 11px;display:flex;align-items:center;gap:7px;border-bottom:0.5px solid rgba(0,0,0,0.08)}
+.sc-num{font-size:10px;font-weight:500;letter-spacing:1px;font-family:monospace;min-width:18px}
+.sc-name{font-size:13px;font-weight:500}
+.sc-bd{padding:9px 11px}
+.sc-intent{font-size:11px;font-style:italic;line-height:1.5;margin-bottom:6px;opacity:.85}
+.sc-desc{font-size:11px;color:#5a5956;line-height:1.55}
+.arr{display:flex;align-items:center;padding:0 5px;flex-shrink:0}
+.arr-line{width:14px;height:1px;background:#d0cdc8}
+.arr-tip{width:0;height:0;border-top:3px solid transparent;border-bottom:3px solid transparent;border-left:4px solid #d0cdc8}
+.bp-note{margin-top:16px;background:#f7f6f2;border-radius:8px;padding:12px 15px;border:0.5px solid #e0ddd6;font-size:12px;color:#5a5956;line-height:1.7}
+.bp-note strong{color:#1a1a1a;font-weight:500}
+
+.seg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.seg-card{border:0.5px solid #e0ddd6;border-radius:8px;overflow:hidden;background:#fff}
+.seg-card.live .seg-bd{cursor:pointer}
+.seg-card.live .seg-bd:hover{background:#fdf9f7}
+.seg-card.dim{opacity:.55}
+.seg-ch{padding:11px 13px 9px;border-bottom:0.5px solid #e0ddd6;display:flex;align-items:center;gap:9px}
+.sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.seg-name{font-size:13px;font-weight:500;color:#1a1a1a;flex:1}
+.sbadge{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:500;white-space:nowrap}
+.b-ready{background:#eaf3de;color:#27500a;border:0.5px solid #97c459}
+.b-soon{background:#f1efe8;color:#888780;border:0.5px solid #d3d1c7}
+.seg-bd{padding:11px 13px;background:#fff;transition:background .15s}
+.seg-desc{font-size:12px;color:#5a5956;line-height:1.6;margin-bottom:9px}
+.ppips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:8px}
+.ppip{font-size:11px;padding:2px 7px;border-radius:3px;background:#f1efe8;color:#5a5956;border:0.5px solid #d3d1c7}
+.ppip.live{cursor:pointer}
+.ppip.live:hover{background:#fdf0ec;border-color:#f0997b;color:#993c1d}
+.proppips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px}
+.proppip{font-size:11px;padding:2px 7px;border-radius:3px}
+.seg-cta{font-size:12px;font-weight:500;color:#E8593C}
+.seg-cta.dim{color:#b0ada8}
+
+.stage-nav{display:flex;align-items:center;gap:0;padding:10px 0;overflow-x:auto;border-bottom:0.5px solid #e0ddd6;margin-bottom:18px}
+.spill{padding:5px 13px;font-size:12px;cursor:pointer;border:0.5px solid;background:transparent;border-radius:20px;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.spill:hover{opacity:.85}
+.sarr{color:#c0bdb8;font-size:12px;padding:0 4px;flex-shrink:0}
+.vbar{display:flex;align-items:center;gap:7px;margin-bottom:16px}
+.vlabel{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888780;font-weight:500;margin-right:3px}
+.vbtn{padding:4px 14px;font-size:12px;cursor:pointer;border:0.5px solid #d0cec8;background:transparent;color:#5a5956;border-radius:3px;transition:all .15s}
+.vbtn:hover{background:#f0ede8}
+.vbtn.on{background:#fff;border-color:#a0a09a;color:#1a1a1a;font-weight:500}
+.jbody{display:grid;grid-template-columns:200px 1fr;gap:18px;min-height:460px}
+.jsb{padding:14px;background:#f7f6f2;border-radius:8px;border:0.5px solid #e0ddd6}
+.slabel2{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#888780;font-weight:500;margin-bottom:7px}
+.intent-strip{padding:8px 10px;border-radius:0 5px 5px 0;margin-bottom:13px;border-left:3px solid}
+.intent-txt{font-size:12px;color:#5a5956;font-style:italic;line-height:1.5}
+.si{font-size:12px;color:#5a5956;padding:3px 0;border-bottom:0.5px solid #e0ddd6;line-height:1.5}
+.si:last-child{border-bottom:none}
+.emo-row{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.emo-n{font-size:11px;color:#5a5956;width:80px;flex-shrink:0}
+.emo-tr{flex:1;height:6px;background:#e8e5e0;border-radius:3px;overflow:hidden}
+.emo-fi{height:100%;border-radius:3px}
+.emo-pc{font-size:10px;color:#888780;width:24px;text-align:right;flex-shrink:0}
+.stitle{font-size:16px;font-weight:500;color:#1a1a1a;margin-bottom:3px}
+.sdesc{font-size:13px;color:#5a5956;line-height:1.7;margin-bottom:15px;max-width:700px}
+.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:10px}
+.card{background:#f7f6f2;border-radius:7px;padding:12px 14px;border:0.5px solid #e0ddd6}
+.card.wh{background:#fff}
+.clbl{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#888780;margin-bottom:8px;font-weight:500}
+.card ul{padding-left:14px}
+.card li{font-size:12px;color:#3d3d3a;margin-bottom:4px;line-height:1.6}
+.card li:last-child{margin-bottom:0}
+.full{grid-column:1/-1}
+.lhd{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;font-weight:500;padding:4px 8px;border-radius:3px;margin-bottom:6px;display:inline-block}
+.lf{color:#0c447c;background:#e6f1fb;border:0.5px solid #85b7eb}
+.lb{color:#3d3d3a;background:#f1efe8;border:0.5px solid #d3d1c7}
+.lt{color:#633806;background:#faeeda;border:0.5px solid #ef9f27}
+.lp{color:#3c3489;background:#eeedfe;border:0.5px solid #afa9ec}
+.lpr{color:#27500a;background:#eaf3de;border:0.5px solid #97c459}
+.ls{color:#791f1f;background:#fcebeb;border:0.5px solid #f09595}
+.dbox{background:#eeedfe;border:0.5px solid #afa9ec;border-radius:7px;padding:12px 14px;margin-bottom:12px}
+.dlbl{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#3c3489;font-weight:500;margin-bottom:5px}
+.dtxt{font-size:12px;color:#3c3489;line-height:1.7}
+.tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.tc{background:#fff;border-radius:5px;border:0.5px solid #e0ddd6;padding:9px 11px}
+.tnum{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#888780;font-weight:500;margin-bottom:3px}
+.tnm{font-size:12px;font-weight:500;color:#1a1a1a;margin-bottom:3px}
+.tds{font-size:11px;color:#5a5956;line-height:1.5}
+.prof-grid{display:grid;grid-template-columns:240px 1fr;gap:20px;align-items:start}
+.prof-card{border:0.5px solid #e0ddd6;border-radius:8px;overflow:hidden;background:#fff}
+.prof-card-top{padding:20px;text-align:center;border-bottom:0.5px solid #e0ddd6;background:#f7f6f2}
+.prof-icon{font-size:44px;margin-bottom:8px}
+.prof-id{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.prof-name{font-size:15px;font-weight:500;line-height:1.3;margin-bottom:10px}
+.prof-markets{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.mkt-badge{font-size:11px;padding:2px 9px;border-radius:3px;font-family:monospace}
+.mkt-us{background:#e6f1fb;color:#0c447c;border:0.5px solid #85b7eb}
+.mkt-uk{background:#fcebeb;color:#791f1f;border:0.5px solid #f09595}
+.pub-badges{display:flex;justify-content:center;flex-wrap:wrap;gap:3px}
+.pub-badge{font-size:10px;padding:2px 7px;border-radius:3px;font-family:monospace}
+.prof-stats{padding:13px 15px}
+.stat-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid #e0ddd6;font-size:12px}
+.stat-row:last-child{border-bottom:none}
+.stat-lbl{color:#888780;font-family:monospace;font-size:11px;font-weight:500}
+.stat-val{color:#3d3d3a;text-align:right;max-width:150px}
+.prof-detail{}
+.prof-section{margin-bottom:12px}
+.prof-slbl{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:#888780;font-weight:500;margin-bottom:5px}
+.prof-text{font-size:13px;color:#3d3d3a;line-height:1.65;padding:10px 13px;background:#f7f6f2;border-radius:6px;border:0.5px solid #e0ddd6}
+.dest-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dest-card{background:#f7f6f2;border-radius:6px;border:0.5px solid #e0ddd6;padding:10px 12px}
+.dest-lbl{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#888780;font-weight:500;margin-bottom:7px}
+.dest-tags{display:flex;flex-wrap:wrap;gap:4px}
+.dest-tag{font-size:11px;padding:2px 8px;border-radius:10px;border:0.5px solid}
+.notes-box{background:#eeedfe;border:0.5px solid #afa9ec;border-radius:6px;padding:10px 13px;margin-top:4px}
+.notes-lbl{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#3c3489;font-weight:500;margin-bottom:5px}
+.notes-txt{font-size:12px;color:#3c3489;line-height:1.65}
+</style>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Project Pathways customer experience hub — orientation, segment journeys and persona profiles</h2>
+<div class="pg" id="app"></div>
+
+<script>
+const STAGE_PALETTE=[
+  {bg:'#E8F4FB',border:'#7BBEE0',num:'#1a6896',name:'#0d4d73',intent:'#1a6896'},
+  {bg:'#EAF5EE',border:'#7DC49A',num:'#1f6b3a',name:'#145228',intent:'#1f6b3a'},
+  {bg:'#FEF3E2',border:'#F0B955',num:'#8a5a00',name:'#6b4400',intent:'#8a5a00'},
+  {bg:'#F0EBF8',border:'#B899DC',num:'#5c3489',name:'#421e6b',intent:'#5c3489'},
+  {bg:'#FEF0E6',border:'#F0A06A',num:'#8a4010',name:'#6b2d08',intent:'#8a4010'},
+  {bg:'#EEEDFE',border:'#AFA9EC',num:'#3c3489',name:'#26215c',intent:'#3c3489'},
+  {bg:'#E6F7F0',border:'#70C4A0',num:'#0d6645',name:'#074d32',intent:'#0d6645'},
+];
+
+const PERSONAS=[
+  {id:1,seg:'value',title:'The Frugal Deal Hunter',icon:'🏷',color:'#FF6B35',markets:['US','UK'],age:'28–45',gender:'Skews female',incomeUS:'$28k–$48k',incomeUK:'£22k–£35k',techLevel:'Low–Medium',tripFrequency:'2–3 trips/year',publication:'Voucher & Discount',pubAlignment:[],voucherProps:['RetailMeNot','VoucherCodes'],motivation:'Maximise value and minimise spend — every dollar/pound counts',travelStyle:'Budget domestic drives, all-inclusives, last-minute flash deals',bookingBehaviour:'Compares 5+ sites before committing; entirely price-driven; stacks coupon codes at checkout',painPoints:'Hidden fees, expired codes, bait-and-switch pricing, out-of-stock deals',deviceUsage:'Primarily mobile; browser extensions (Honey, Capital One Shopping / TopCashback)',loyaltyProfile:'Zero brand loyalty — follows the cheapest price wherever it leads',destinationsUS:'Florida, Las Vegas, Cancún, domestic road trips',destinationsUK:'Spain, Turkey, budget EU city breaks, UK staycations',notes:'US variant skews toward drive-to destinations and all-inclusives in Mexico/Caribbean. UK variant more European city-break focused.'},
+  {id:2,seg:'value',title:'The Subscribed Saver',icon:'📬',color:'#2EC4B6',markets:['US','UK'],age:'35–55',gender:'Mixed',incomeUS:'$40k–$65k',incomeUK:'£28k–£48k',techLevel:'Medium',tripFrequency:'1–2 main trips/year plus short domestic breaks',publication:'Voucher & Discount',pubAlignment:[],voucherProps:['RetailMeNot','VoucherCodes'],motivation:'Reliable, habitual savings — travel is an extension of deal-seeking lifestyle',travelStyle:'Family holidays, domestic breaks, occasional warm-weather escape',bookingBehaviour:'Subscribes to deal newsletters; books when a relevant offer lands in inbox rather than actively searching',painPoints:'Irrelevant deal fatigue, notification overload, slow checkout friction when applying codes',deviceUsage:'Desktop for booking; mobile for browsing and alerts',loyaltyProfile:'Loyal to deal aggregators and newsletter brands, not underlying travel providers',destinationsUS:'Orlando, Myrtle Beach, Branson, national parks',destinationsUK:'Center Parcs, Majorca, Portugal, Scottish Highlands',notes:'US variant driven by road-trip and theme-park culture. UK variant more package-holiday and European sun focused.'},
+  {id:7,seg:'value',title:'The Spontaneous Weekender',icon:'⚡',color:'#FF4081',markets:['US','UK'],age:'21–35',gender:'Mixed',incomeUS:'$28k–$52k',incomeUK:'£18k–£36k',techLevel:'Medium',tripFrequency:'6–10 short trips/year',publication:'Voucher & Discount',pubAlignment:[],voucherProps:['RetailMeNot','VoucherCodes'],motivation:'Impulse-driven escapes from routine — maximum experience with minimum lead time',travelStyle:'Short city breaks, music festivals, impromptu road trips, long weekends',bookingBehaviour:'Books within 72 hours to 2 weeks; heavily influenced by social media and peer recommendations',painPoints:'Poor last-minute inventory, multi-step checkout friction, inflexible date search, lack of bundle deals',deviceUsage:'Entirely mobile; TikTok and Instagram-driven discovery; Google Flights Explore mode',loyaltyProfile:'Very low — follows trending destinations and influencer recommendations',destinationsUS:'Nashville, New Orleans, NYC weekend, Miami, Cabo, Vegas',destinationsUK:'Amsterdam, Dublin, Barcelona, Berlin, UK festivals (Glastonbury, Latitude)',notes:'US variant more domestic-flight and road-trip focused. UK variant skews toward intra-European low-cost flights.'},
+  {id:8,seg:'value',title:'The Family Value Planner',icon:'👨‍👩‍👧‍👦',color:'#FF9F43',markets:['US','UK'],age:'32–50',gender:'Skews female',incomeUS:'$55k–$90k (household)',incomeUK:'£35k–£58k (household)',techLevel:'Low–Medium',tripFrequency:'1–2 main holidays plus school-break domestics',publication:'Voucher & Discount',pubAlignment:[],voucherProps:['RetailMeNot','VoucherCodes'],motivation:'A safe, stress-free holiday the whole family genuinely enjoys — value is essential but experience comes first',travelStyle:'All-inclusive resorts, theme parks, beach holidays, holiday parks, cruise-with-kids',bookingBehaviour:'Plans 3–6 months ahead; heavy use of TripAdvisor and Trustpilot; books via recognisable, trusted brands',painPoints:'Hidden child supplement costs, ambiguous room sizing, complex cancellation, no kids\' club detail',deviceUsage:'Tablet and desktop for research and booking; mobile for price-drop alerts',loyaltyProfile:'Loyal to trusted family brands — Disney, all-inclusive chains, known operators',destinationsUS:'Orlando (Disney/Universal), Outer Banks, Hawaii (aspirational), Mexico/Caribbean all-inclusives',destinationsUK:'Spain, Greece, Center Parcs, Turkey, Florida (aspirational)',notes:'US variant strongly shaped by Disney culture and drive-to destinations. UK variant driven by ATOL-protected package holidays and school term dates.'},
+  {id:3,seg:'tech',title:'The Enthusiast Tech Traveller',icon:'📱',color:'#3D9970',markets:['US'],age:'25–45',gender:'Skews male',incomeUS:'$45k–$85k',incomeUK:null,techLevel:'High',tripFrequency:'3–5 trips/year including one longer trip',publication:'Tech & IT Hobbyist',pubAlignment:['CNET','PCMag','Mashable','Lifehacker'],voucherProps:[],motivation:'Research-driven, spec-obsessed — applies the same rigour to travel as to tech purchases',travelStyle:'Activity holidays, road trips with high-end kit, city breaks chosen for tech or cultural scene',bookingBehaviour:'Deep pre-trip researcher; reads every review; cross-references multiple sources; receptive to member-rate platforms',painPoints:'Generic search results, poor amenity filtering, lack of trusted peer reviews in booking engines',deviceUsage:'Cross-device power user; latest smartphone, smartwatch, noise-cancelling headphones as standard',loyaltyProfile:'Loyal to platforms with genuine product depth and curation',destinationsUS:'National Parks, tech hubs (SF, Austin, NYC), Japan, Iceland, New Zealand, Pacific Northwest',destinationsUK:null,notes:'Broadened from Gear-First Adventurer in v3 to reflect mainstream CNET/PCMag/Mashable/Lifehacker audience.'},
+  {id:6,seg:'tech',title:'The Conscious Tech Traveller',icon:'🌿',color:'#20BF55',markets:['US'],age:'27–43',gender:'Mixed',incomeUS:'$50k–$90k',incomeUK:null,techLevel:'High',tripFrequency:'2–3 considered trips/year',publication:'Tech & IT Hobbyist',pubAlignment:['Lifehacker','Mashable'],voucherProps:[],motivation:'Use technology to travel more intentionally — low-carbon choices, verified eco-credentials',travelStyle:'Slow travel, train-first, eco-lodges, national parks, volunteering trips',bookingBehaviour:'Filters by sustainability certifications; uses Google Flights emissions data; willing to pay 10–20% premium for verified ethics',painPoints:'Greenwashing, no emissions data in booking engines, flight-dominant search results, lack of rail integration',deviceUsage:'Mobile-first; iOS/Android sustainability apps; EV road-trip planning tools',loyaltyProfile:'Loyal to brands with transparent and auditable environmental commitments',destinationsUS:'US National Parks (overland), Costa Rica, Iceland, Canadian Rockies, Pacific Coast Highway',destinationsUK:null,notes:'Primary alignment with Lifehacker and Mashable. Weaker fit for ZDNet, PCMag, and Spiceworks.'},
+  {id:4,seg:'nomad',title:'The Remote-Work Nomad',icon:'💻',color:'#6C63FF',markets:['US'],age:'24–38',gender:'Mixed, skews male',incomeUS:'$55k–$110k (remote/freelance)',incomeUK:null,techLevel:'Very High',tripFrequency:'Near-continuous or 6–10 distinct trips/year',publication:'Tech & IT Hobbyist',pubAlignment:['Lifehacker','Mashable'],voucherProps:[],motivation:'Work and travel are the same life — connectivity, comfort, and timezone-friendly bases above all else',travelStyle:'Extended stays (2–6 weeks), co-living and co-working spaces, slow travel, visa-run aware',bookingBehaviour:'Books via Nomad List, Airbnb long-stay; filters hard on WiFi speed and dedicated desk',painPoints:'No long-stay pricing, missing WiFi speed data, check-in friction, poor timezone or visa info',deviceUsage:'Laptop-first; deep SaaS and API tool stack; uses VPN as standard',loyaltyProfile:'Pragmatic — loyal to platforms that genuinely solve workflow problems',destinationsUS:'Lisbon, Bali, Medellín, Tbilisi, Chiang Mai, Mexico City, Playa del Carmen',destinationsUK:null,notes:'US-only persona though destinations are global. Primary alignment with Lifehacker and Mashable.'},
+  {id:5,seg:'rewards',title:'The Points & Cashback Strategist',icon:'💳',color:'#F7B731',markets:['US','UK'],age:'30–50',gender:'Mixed, skews male',incomeUS:'$60k–$100k',incomeUK:'£40k–£70k',techLevel:'Medium–High',tripFrequency:'4–6 trips/year, often heavily subsidised',publication:'Voucher & Discount',pubAlignment:[],voucherProps:['RetailMeNot'],motivation:'Systematic maximisation of credit card rewards, cashback portals, and loyalty programmes — travel as arbitrage',travelStyle:'Business-class upgrades via points, premium long-haul, loyalty programme exploitation',bookingBehaviour:'Routes all spend through rewards cards; stacks cashback portals; spreadsheet-managed',painPoints:'Points devaluations, blackout dates, clunky redemption UX, category bonus expiry',deviceUsage:'Desktop with multiple tabs open; AwardWallet, AwardHacker, NerdWallet',loyaltyProfile:'Deeply loyal to programmes they have strategically invested in; resistant to switching',destinationsUS:'Tokyo, London, Maldives, business-class to Europe, Caribbean on points',destinationsUK:'Dubai, New York, Singapore, Maldives, business-class redemptions',notes:'US variant centred on Chase, Amex, and airline mile programmes. UK variant focused on Avios, Amex UK, and Quidco/cashback stacking.'},
+  {id:9,seg:'rewards',title:'The Luxury Tech Upgrader',icon:'✨',color:'#9B59B6',markets:['US','UK'],age:'38–58',gender:'Mixed',incomeUS:'$110k+',incomeUK:'£75k+',techLevel:'Medium–High',tripFrequency:'4–6 trips/year including 1–2 long-haul luxury trips',publication:'Tech & IT Hobbyist / Voucher',pubAlignment:['CNET','PCMag'],voucherProps:['RetailMeNot'],motivation:'Premium, curated experiences — uses technology and private member rates to access luxury efficiently',travelStyle:'Five-star hotels, business and first class, exclusive resorts, experiential luxury',bookingBehaviour:'Researches extensively before delegating final booking; values private member portals and pre-negotiated rates',painPoints:'Poor luxury search UX, lack of trusted curation, inconsistent property descriptions',deviceUsage:'Desktop and premium mobile apps; abandons ugly interfaces instantly',loyaltyProfile:'Brand loyal within preferred hotel groups and airline alliances; open to platforms that demonstrate curation quality',destinationsUS:'Napa Valley, Aspen, Hawaii luxury resorts, Turks & Caicos, Japan, Amalfi Coast',destinationsUK:'Maldives, Tuscany, East Africa safari, New York, Kyoto, Cotswolds',notes:'US variant slightly higher income threshold; more domestic luxury travel. UK variant more internationally oriented.'},
+  {id:10,seg:'rewards',title:'The Retired Comfort Seeker',icon:'🚢',color:'#1A9ED4',markets:['US','UK'],age:'58–74',gender:'Skews female',incomeUS:'$35k–$60k (retirement)',incomeUK:'£22k–£42k (pension/savings)',techLevel:'Low',tripFrequency:'2–4 trips/year in retirement',publication:'Voucher & Discount',pubAlignment:[],voucherProps:['VoucherCodes'],motivation:'Comfortable, well-organised, sociable travel with zero logistical stress',travelStyle:'Ocean and river cruises, guided coach tours, repeat warm-weather destinations',bookingBehaviour:'Books well in advance; prefers phone or simple desktop booking; values visible human support',painPoints:'Confusing multi-step UX, small text, no visible phone support, unexpected charges at checkout',deviceUsage:'Desktop only; limited mobile confidence; prefers large-screen browsing with readable fonts',loyaltyProfile:'Highly loyal to familiar cruise lines and tour operators; strong word-of-mouth influence',destinationsUS:'Caribbean cruises, Alaska, European river cruises, Hawaii, Florida',destinationsUK:'Mediterranean cruises, Norwegian fjords, Caribbean, Canary Islands, UK coach holidays',notes:'Primarily a VoucherCodes / UK alignment. US brands: Holland America, Princess, AAA. UK brands: Saga, P&O, Shearings.'},
+  {id:11,seg:'enterprise',title:'The IT Professional Traveller',icon:'🖥',color:'#E84393',markets:['US'],age:'30–52',gender:'Skews male',incomeUS:'$65k–$105k',incomeUK:null,techLevel:'Very High',tripFrequency:'2–4 personal leisure trips/year plus regular business travel',publication:'Tech & IT Hobbyist',pubAlignment:['Spiceworks','ZDNet'],voucherProps:[],motivation:'Reliable, no-hassle travel that mirrors the efficiency of managing IT systems — value-conscious on personal spend',travelStyle:'Beach holidays, city breaks, domestic drives, occasional international trip; comfort over adventure; strong interest in cruises and all-inclusives',bookingBehaviour:'Methodical researcher; familiar with corporate booking tools; receptive to platforms that feel like a managed system',painPoints:'Decision fatigue from over-complex booking flows, lack of transparent all-in pricing, poor mobile experience',deviceUsage:'Desktop-first for planning; cross-platform comfortable; familiar with enterprise SaaS UX patterns',loyaltyProfile:'Pragmatic loyalty — sticks with platforms that work reliably; Spiceworks community recommendations carry significant weight',destinationsUS:'Orlando, Las Vegas, Caribbean cruises, Hawaii, national parks, European city breaks',destinationsUK:null,notes:'Added in v3 to reflect Spiceworks audience of IT professionals and sysadmins. Motivated by reliability and simplicity.'},
+];
+
+const PUB_STYLE={
+  CNET:{bg:'#fff0f0',color:'#993333',border:'#ffaaaa'},ZDNet:{bg:'#e8f4ff',color:'#1a5c99',border:'#99ccff'},
+  Mashable:{bg:'#e0faf5',color:'#0a6650',border:'#66d4bf'},PCMag:{bg:'#fff5e0',color:'#7a4a00',border:'#ffcc66'},
+  Lifehacker:{bg:'#edfaed',color:'#2d6b2d',border:'#88cc88'},Spiceworks:{bg:'#fce8f3',color:'#8c1f5c',border:'#e898cc'},
+  RetailMeNot:{bg:'#fdf0ec',color:'#993c1d',border:'#f0997b'},VoucherCodes:{bg:'#e6f9f0',color:'#0a5e35',border:'#55bb88'},
+};
+
+const SEGS=[
+  {id:'value',name:'Value & Deal Seekers',color:'#E8593C',desc:'Price-triggered, impulse-responsive shoppers migrating from voucher browsing into travel booking. Member-rate and strike-through mechanics must do real conversion work — travel is a category expansion for the Shopping audience.',props:['RetailMeNot','VoucherCodes'],journeyReady:true},
+  {id:'tech',name:'Tech Enthusiasts',color:'#3D9970',desc:'Research-driven, spec-obsessed travellers who engage through editorial content. Trust is built through depth and curation — content-led entry is the only credible model for this segment.',props:['CNET','PCMag','Mashable','Lifehacker'],journeyReady:false},
+  {id:'nomad',name:'Digital Nomads',color:'#6C63FF',desc:'Near-continuous travellers for whom booking is a workflow task. Connectivity, long-stay pricing, and visa data are non-negotiable. The platform must feel like a productivity tool, not a leisure site.',props:['Lifehacker','Mashable'],journeyReady:false},
+  {id:'rewards',name:'Status & Rewards Optimisers',color:'#F7B731',desc:'System-thinkers who route all spend through rewards programmes and cashback portals. Both the Points Strategist and Luxury Upgrader expect a value architecture that works with their existing loyalty stack.',props:['CNET','PCMag','RetailMeNot'],journeyReady:false},
+  {id:'enterprise',name:'Professional & Enterprise',color:'#E84393',desc:'Corporate-salaried IT professionals who benchmark personal travel against managed corporate tool experience. Community peer validation via Spiceworks is the primary trust signal.',props:['Spiceworks','ZDNet'],journeyReady:false},
+];
+
+const JSTAGES=[
+  {id:'discover',label:'Discover',intent:'Make great travel feel like an obvious choice'},
+  {id:'plan',label:'Plan & Compare',intent:'Simplify decisions and reduce uncertainty'},
+  {id:'book',label:'Book',intent:'Turn intent into confident commitment'},
+  {id:'pretrip',label:'Pre-Trip',intent:'Keep confidence intact as the trip approaches'},
+  {id:'intrip',label:'In-Trip',intent:'Stay focused on the experience, not the logistics'},
+  {id:'disruption',label:'Disruption',intent:'Resolve issues seamlessly, if needed',special:true},
+  {id:'posttrip',label:'Post-Trip',intent:'Leave travellers feeling rewarded for choosing ZD'},
+];
+
+const JDATA={
+  discover:{desc:'First contact with the travel offering within a familiar deal-browsing context. Travellers are curious and cautiously optimistic — they need to feel the saving is real, the brand is credible, and the decision will not be complicated.',goals:['Find credible, good-value travel options — clearly presented','Understand meaningful trade-offs at a glance (price vs. flexibility)','Feel this is a trustworthy extension of a platform they already use'],actions:['Explores destinations and packages on RMN / VoucherCodes','Scans headline prices and strike-through savings','Scans inclusions and flexibility highlights','Shares a deal with a partner via WhatsApp or text'],emotions:{curious:80,optimistic:65,confident:40,anxious:25,frustrated:15},touchpoints:['RMN / VoucherCodes homepage — travel category entry point','Clear value and flexibility indicators alongside strike-through pricing','Deal newsletter or push notification','Social retargeting for returning visitors','Price-drop alert sign-up prompt'],front:['Prominent strike-through pricing with a clearly stated saving amount','Travel category clearly labelled in main navigation','"Members save up to X%" headline badge at category entry','Flash deal countdown for genuinely time-sensitive offers','Flexibility highlight alongside price: cancellation and change terms visible at first glance'],back:['Travel category pages built and indexed in RMN / VC CMS','Booking engine inventory feed connected with current pricing','Deal newsletter segmentation: travel sub-list populated from existing subscriber base','Banner and category creative assets produced and signed off'],tech:['Booking engine inventory API connected to RMN / VoucherCodes CMS','Email platform: travel deal alert trigger configured','CDN: fast page load mandatory — deal urgency is speed-sensitive','Analytics: travel category click-tracking and source attribution live'],people:['CRM team: travel newsletter segment defined and loaded','Editorial and creative team: banner and category page assets','Platform provider: onboarding support during integration'],process:['Inventory freshness SLA: pricing feed updated at least every four hours','Deal alert sign-up: double opt-in with travel preference capture','Creative and legal review: all promotional claims signed off before publication'],systems:['White-label booking engine: inventory and pricing API','Email platform with segmentation and trigger capability','CDN for asset delivery','Analytics with travel funnel event tracking']},
+  plan:{desc:'The traveller is actively comparing options. Price is still the primary filter but trust signals now matter — they want to know there will be no surprises. The Family Value Planner is researching child supplements and room sizing. The Spontaneous Weekender wants minimum friction.',goals:['Feel fully informed about choices and contingencies before committing','Reduce uncertainty: understand exactly what is and is not included','Review change and refund conditions in plain language'],actions:['Compares options side by side on price and inclusions','Reviews change and refund conditions','Uses scenario previews where available','Family Planner: checks child supplement costs and room sizing','Spontaneous Weekender: checks last-minute availability and flexibility'],emotions:{curious:60,optimistic:55,confident:45,anxious:55,frustrated:40},touchpoints:['Side-by-side comparison view for packages or hotel options','Scenario previews — "what if I need to change or cancel?"','Change and refund policy summary in plain language','Plain-language disruption policy overview','Child supplement and room size disclosure for family bookings'],front:['Total cost shown early — no late fee surprises at checkout','Plain-language change and refund summary on every option','Family filter: children welcome, room sizing, and child supplement disclosed upfront','Side-by-side comparison with key differences highlighted','Social proof: "X people booked this week" to validate demand'],back:['Package data completeness audit: all options must have room type, child policy, and inclusions populated before display','Competitor price monitoring configured to support parity display','Plain-language policy extraction: T&Cs converted to plain-English summaries','Review aggregation feed integrated and refreshed regularly'],tech:['Booking engine: family filter and room-type data exposed in search results','Review aggregation API','Price parity monitoring tool or manual SLA process','Analytics: consideration drop-off tracking by device and persona segment'],people:['Content team: plain-English policy summary standards defined and applied','Booking platform: family filter taxonomy configured in inventory','Legal: minimum disclosure requirements for change and refund terms reviewed'],process:['Supplier data quality gate: no option displayed without complete room, child policy, and inclusion data','Plain-language review cycle: policy summaries checked for accuracy every 60 days','Cancellation policy: displayed at search results level, not only at checkout'],systems:['Booking engine: family filter and room-type API','Review aggregation API','Plain-language policy extraction (manual or AI-assisted)','Analytics with consideration-stage funnel events']},
+  book:{desc:'The traveller has chosen and is entering the booking flow. This is the highest drop-off risk point in the journey. Unexpected fees cause immediate abandonment. The Spontaneous Weekender abandons on any friction. The Family Planner may pause for partner sign-off.',goals:['Commit with confidence — no surprises at checkout','Confirm the saving is real and locked in at payment','Set personal preferences for changes or refunds if needed'],actions:['Selects package or travel options and any add-ons','Applies voucher or promo code','Sets change or refund preference where available','Reviews price breakdown before paying','Completes payment and receives immediate confirmation'],emotions:{curious:40,optimistic:60,confident:55,anxious:65,frustrated:45},touchpoints:['Checkout experience — white-label, RMN / VC branded','Voucher or promo code entry field — visible and functional','Price breakdown at checkout: itemised before final payment','Confirmation page: platform reference and supplier reference both shown','Confirmation email sent within two minutes of payment'],front:['Guest checkout: no forced account creation as a barrier','Voucher or promo code field clearly positioned','Itemised price summary before the payment button','Clear ancillary toggles — optional, not forced','Instant on-screen confirmation with platform and supplier references'],back:['Checkout configured for RMN / VC brand identity','Payment gateway configured and tested (PCI DSS compliant)','Fraud and address verification screening active','Booking confirmation email template live and tested','CRM: new booking record created immediately on confirmation'],tech:['White-label booking engine with RMN / VC brand configuration','Payment gateway (PCI DSS compliant) with fraud and AVS screening','Booking confirmation email system — delivery SLA: within two minutes','CRM: booking data ingestion pipeline'],people:['Platform provider handles travel licensing, compliance, and payment processing','Customer support team briefed on booking confirmation query handling','Legal: T&Cs and cancellation terms display requirements signed off'],process:['Pre-launch checkout testing: full end-to-end booking flow tested across desktop and mobile','Price disclosure gate: no booking can proceed without itemised total displayed','Confirmation SLA: email delivered within two minutes, monitored and alerted if breached'],systems:['White-label booking engine','Payment gateway with PCI compliance and fraud screening','CRM with booking record creation','Email delivery platform with SLA monitoring','Travel licensing and regulatory compliance managed by platform provider']},
+  pretrip:{desc:'The booking is confirmed. Confidence must be sustained between payment and departure. The primary risk in this window is buyer remorse leading to cancellation. Proactive, useful communication is the remedy.',goals:['Feel reassured that the booking is solid and all details are correct','Receive practical trip information without having to search for it','Avoid last-minute surprises — know the itinerary and what to expect'],actions:['Reads confirmation email in full','Checks whether a better deal has appeared elsewhere','Reviews itinerary details and supplier confirmations','Family Planner: saves packing lists, checks passport validity for children','Subscribed Saver: looks for ancillary add-ons at a deal price'],emotions:{curious:50,optimistic:70,confident:60,anxious:40,frustrated:20},touchpoints:['Booking confirmation email — complete and operational','T-30 email: trip confirmed with itinerary summary','T-14 email: destination guide and practical preparation tips','T-7 email: final checklist — check-in times, what to bring, supplier contacts','Live trip status accessible at any point','Pre-trip checklist available in account or confirmation link'],front:['T-30: itinerary confirmation with key details and supplier contacts','T-14: destination guide, local tips, and packing suggestions','T-7: final pre-trip checklist covering check-in, documents, and contact numbers','Supplier confirmations: hotel and flight or transfer reference numbers confirmed','Optional ancillary add-on offer if not taken at booking'],back:['Pre-trip email sequence triggered automatically from CRM on booking confirmation','Supplier confirmation re-validated at T-7 by back-office or automated feed','Content: destination guide library mapped to destination codes','Ancillary retargeting: insurance or parking reminder if not purchased at booking','Buyer remorse monitoring: cancellations within 48 hours flagged for recovery outreach'],tech:['CRM: pre-trip drip campaign triggered from booking confirmation event','Booking management API: live trip status view for traveller','Supplier confirmation feed: T-7 automated re-validation','Email platform: pre-trip sequence with branching logic'],people:['CRM team: pre-trip sequence setup, tested, and signed off','Editorial team: destination content library maintained and accurate','Platform provider: booking management support for customer-initiated changes','Back-office team: T-7 supplier confirmation re-validation process'],process:['Pre-trip sequence SLA: T-30, T-14, and T-7 emails sent on schedule','Supplier confirmation re-validation: completed by T-7 for all live bookings','Cancellation recovery: 48-hour post-booking cancellations flagged and responded to within 24 hours'],systems:['CRM with event-triggered pre-trip sequence and branching logic','Booking management API for live trip status','Supplier confirmation feed','Email platform','Live trip status view accessible to traveller from confirmation email']},
+  intrip:{desc:'The traveller is on their trip. In normal operations the platform\'s role is to be invisible — the trip should simply work. If contact is needed it must be fast and easy to access.',goals:['Enjoy the trip without distraction from logistics','Know that help is immediately available if something goes wrong','Travel with confidence that the platform has their back'],actions:['Checks in at the hotel or boards the flight','References the booking confirmation for check-in details','Contacts support only if an issue arises','Family Planner: may seek reassurance if any complexity arises'],emotions:{curious:30,optimistic:80,confident:65,anxious:25,frustrated:15},touchpoints:['Booking confirmation as in-trip reference document','24/7 support contact clearly visible in confirmation email and account','In-trip support: chat or phone via platform provider','Emergency contact options for urgent situations'],front:['"Your trip is live" communication: key details in a single mobile-friendly view','24/7 support number and chat link prominently included in all in-trip communications','Hotel and transfer direct contact numbers pre-populated in trip summary','Simple, unambiguous support process — one number or one chat link'],back:['In-trip monitoring: supplier status feed checked for known disruptions','Support team routing: in-trip queries prioritised and handled within SLA','Booking management: changes available if traveller needs to modify in-trip','Social monitoring: ZD brand mentions tracked for in-trip issues raised publicly'],tech:['Booking management portal for in-trip changes','Supplier disruption status feed (airline and hotel status monitoring)','CRM: in-trip case management and resolution tracking','Social listening tool: real-time brand mention monitoring'],people:['Customer support team: trained on booking system and in-trip query handling','Platform provider: 24/7 support coverage available per contractual terms','Escalation path: ZD front-line → platform provider specialist → supplier direct'],process:['In-trip support SLA: first response within one hour during business hours; emergency contact 24/7','Escalation protocol: criteria defined for ZD → platform provider → supplier escalation','In-trip issue log: all contacts recorded in CRM with resolution outcome'],systems:['In-trip booking management portal','Airline and hotel status feeds','CRM in-trip case management','Social listening platform']},
+  disruption:{desc:'A flight is cancelled, a hotel is overbooked, a transfer fails to appear. For a price-sensitive traveller who booked in good faith, disruption left to self-resolve feels like a betrayal. Resolution speed is the most important variable.',goals:['Get the problem resolved immediately without having to fight for it','Not spend personal money to bridge the gap while waiting for resolution','Feel protected and supported, not abandoned to resolve it alone'],actions:['Receives a proactive alert — ideally before arriving at the airport','Reviews or accepts the resolution option presented','Contacts support if the automated resolution is not satisfactory','Files a travel insurance claim if the disruption is significant'],emotions:{curious:10,optimistic:10,confident:15,anxious:90,frustrated:80},touchpoints:['Proactive disruption notification via push, SMS, or email','Clear notification: what has changed and what ZD is doing about it','Simple rebooking or refund options — one click where possible','Human support available: phone and chat','Insurance claim initiation if required'],disruptNote:'The standard OTA model leaves the traveller to self-resolve. ZD\'s differentiation is to own the disruption: proactive detection, managed rebooking, and a clear commitment communicated before the traveller has to ask. The platform provider\'s compliance infrastructure provides the operational foundation. The key design decision is whether ZD invests in proactive monitoring and empowered-agent capability to make this real at launch.',front:['Proactive alert sent as soon as a disruption is detected — before the traveller reaches the airport if possible','Clear notification: what has changed, what options are available, what ZD is doing','Simple rebooking or refund options: ideally one-click acceptance','Regular status updates until fully resolved','Human support: phone and chat with short wait times during disruption events'],back:['Disruption monitoring: airline and hotel status feeds checked continuously against all live bookings','Proactive alert trigger: automated notification when a confirmed disruption matches a live booking','Support triage: disruption cases flagged as P1 and routed to specialist support tier','Rebooking API access: agent can rebook on traveller\'s behalf without manual supplier contact','Insurance warm handoff: claims process initiated with traveller\'s support where insurance was purchased'],tech:['Airline disruption feeds (e.g. OAG, FlightAware or equivalent) monitored live against active bookings','Rebooking API: agents can action alternative bookings without manual supplier contact','Proactive alert system: automated trigger when disruption matches a live booking','CRM: P1 case management — full booking context available to agent on case open','Insurance provider integration for warm handoff to claims'],people:['Tier 1 — Self-service and AI: automated rebooking acceptance, status updates, simple refund initiation','Tier 2 — General support agents: non-automated resolution, traveller preference confirmation, ancillary adjustments','Tier 3 — Specialist disruption support: complex IRROPS, multi-leg rebooking, high-value cases, supplier negotiation'],process:['Disruption response playbook: pre-defined decision trees for flight cancellation, hotel overbook, transfer failure, and weather events','Agent spend authority: pre-approved rebooking budget per disruption type — agents act without escalation up to defined threshold','SLA: proactive notification within 30 minutes of detection; resolution offer presented within two hours','Post-disruption review: all P1 cases reviewed within 48 hours for process improvement','Compensation policy: defined and documented — traveller does not need to request it'],systems:['Airline and hotel real-time status feeds','Rebooking API with agent authorisation tiers (capability subject to platform provider agreement)','CRM P1 case management with booking context on case open','Proactive alert system: push, SMS, email','Insurance partner integration or warm handoff process','Refund processing: managed by platform provider per their compliance framework','Incident monitoring dashboard: live view of all active disruption cases']},
+  posttrip:{desc:'The trip is over. This segment will return if the value proposition held. Loyalty is price-conditional, but a well-managed experience — especially any disruption handled well — creates meaningful retention.',goals:['Feel treated fairly and valued, especially if anything went wrong','Confirm any outstanding refunds or credits have been processed','Share the experience if prompted well'],actions:['Receives and reads the post-trip summary','Confirms any refund or credit has been processed correctly','Shares feedback if the process is simple and quick','Browses next deals passively','Family Planner: begins thinking about next year\'s holiday'],emotions:{curious:50,optimistic:65,confident:70,anxious:15,frustrated:15},touchpoints:['Post-trip summary email — personalised recap','Refund or credit tracking: visible in account and confirmed by email','Post-trip review request: simple and fast','Loyalty or appreciation acknowledgement: returning booker recognised','Next deal suggestion: destination-matched, timed to the re-engagement window'],front:['T+2: post-trip summary with a "how was your trip?" prompt (1–5 stars, then optional detail)','Outstanding refunds or credits confirmed in post-trip email — exact amounts, not "pending"','Loyalty acknowledgement: returning booker status noted with a small benefit','T+7: next deal suggestion — destination-matched based on prior booking type','Referral CTA: "Tell a friend" with a simple sharing mechanism and a clear benefit for both parties'],back:['Post-trip email triggered from booking CRM at T+2 (trip end date plus two days)','Refund or credit status confirmed in account within three working days of trip end','Review request linked to booking record','Next deal engine: destination-match recommendation from prior booking data','Referral tracking: attribution and reward fulfilment process active','CRM: returning booker status activated on second confirmed booking'],tech:['CRM: post-trip trigger sequence from trip end date event','Review collection and moderation platform','Refund status tracking display in account and email','Next deal recommendation engine (destination and timing match)','Referral attribution and tracking system'],people:['CRM team: post-trip sequence QA and timing verification','Finance team: refund processing within agreed SLA','Content team: post-trip editorial hooks','Review moderation: responses to negative reviews within 48 hours'],process:['Refund processing SLA: completed and confirmed within three working days of trip end','Post-trip review request: sent at T+2, reminder at T+5 if no response','Negative review response: reviewed and responded to within 48 hours','Returning booker status activated in CRM on second confirmed booking'],systems:['CRM with post-trip trigger sequence and returning booker LTV tagging','Refund status tracking display','Review platform integrated with booking record','Next deal recommendation engine','Referral tracking with reward fulfilment','Financial mechanisms for timely refund processing']},
+};
+
+const EMOCOLS={curious:'#0F6E56',optimistic:'#BA7517',confident:'#534AB7',anxious:'#993C1D',frustrated:'#993556'};
+
+let VIEW='orient',jStage=0,jView='exp',activePersonaId=null,fromSeg=null;
+
+function pStyle(p){const s=PUB_STYLE[p]||{bg:'#f1efe8',color:'#5a5956',border:'#d3d1c7'};return `background:${s.bg};color:${s.color};border:0.5px solid ${s.border}`;}
+
+function goOrient(){VIEW='orient';render();}
+function goJourney(){VIEW='journey';render();}
+function goPersona(id,seg){activePersonaId=id;fromSeg=seg;VIEW='persona';render();}
+function setJStage(i){jStage=i;render();}
+function setJView(v){jView=v;render();}
+
+function breadcrumb(){
+  if(VIEW==='orient') return '';
+  if(VIEW==='journey') return `<div class="breadcrumb"><span class="bc-link" onclick="goOrient()">Overview</span><span class="bc-sep">›</span><span class="bc-cur">Value &amp; Deal Seekers — Journey</span></div>`;
+  if(VIEW==='persona'){
+    const p=PERSONAS.find(x=>x.id===activePersonaId);
+    const sName=SEGS.find(s=>s.id===p.seg)?.name||'';
+    if(fromSeg==='value'){
+      return `<div class="breadcrumb"><span class="bc-link" onclick="goOrient()">Overview</span><span class="bc-sep">›</span><span class="bc-link" onclick="goJourney()">Value &amp; Deal Seekers — Journey</span><span class="bc-sep">›</span><span class="bc-cur">${p.title}</span></div>`;
+    }
+    return `<div class="breadcrumb"><span class="bc-link" onclick="goOrient()">Overview</span><span class="bc-sep">›</span><span class="bc-cur">${p.title}</span></div>`;
+  }
+  return '';
+}
+
+function renderOrient(){
+  const stageCards=[
+    ['01','Discover','Make great travel feel like an obvious choice','First exposure to the travel offering within a trusted ZD context. A relevant option surfaces and a credible value signal draws the traveller in.',0,''],
+    ['02','Plan & Compare','Simplify decisions and reduce uncertainty','The traveller researches and compares options. Clarity on inclusions, pricing, and flexibility terms determines whether confidence builds or doubt wins.',1,''],
+    ['03','Book','Turn intent into confident commitment','The booking flow converts intention into a confirmed reservation. Transparency at checkout and a friction-free experience are critical to completion.',2,''],
+    ['04','Pre-Trip','Keep confidence intact as the trip approaches','Proactive communication sustains confidence between booking and departure — practical preparation, supplier confirmations, and timely reminders.',3,''],
+    ['05','In-Trip','Stay focused on the experience, not the logistics','In normal operations the platform is invisible — the trip simply works. Fast, accessible support is available but should rarely need to be used.',4,''],
+    ['06','Disruption','Resolve issues seamlessly, if needed','When plans change unexpectedly, ZD owns the resolution. Proactive detection and managed rebooking differentiate this from standard OTA models.',5,''],
+    ['07','Post-Trip','Leave travellers feeling rewarded for choosing ZD','The trip is over but the relationship continues. Timely refund confirmation, a genuine review invitation, and a well-timed next deal signal loyalty is recognised.',6,''],
+  ].map(([num,name,intent,desc,pi],i,arr)=>{
+    const pal=STAGE_PALETTE[pi];
+    return `
+      <div class="stage-card" style="background:${pal.bg};border-color:${pal.border}">
+        <div class="sc-hd" style="background:${pal.bg}">
+          <span class="sc-num" style="color:${pal.num}">${num}</span>
+          <span class="sc-name" style="color:${pal.name}">${name}</span>
+        </div>
+        <div class="sc-bd">
+          <div class="sc-intent" style="color:${pal.intent}">"${intent}"</div>
+          <div class="sc-desc">${desc}</div>
+        </div>
+      </div>
+      ${i<arr.length-1?'<div class="arr"><div class="arr-line"></div><div class="arr-tip"></div></div>':''}`;
+  }).join('');
+
+  const segCards=SEGS.map(s=>{
+    const myP=PERSONAS.filter(p=>p.seg===s.id);
+    const pipsHtml=myP.map(p=>{
+      if(s.journeyReady){
+        return `<span class="ppip live" onclick="event.stopPropagation();goPersona(${p.id},'${s.id}')">${p.title.replace('The ','')}</span>`;
+      }
+      return `<span class="ppip">${p.title.replace('The ','')}</span>`;
+    }).join('');
+    const propHtml=s.props.map(pr=>`<span class="proppip" style="${pStyle(pr)}">${pr}</span>`).join('');
+    const badge=s.journeyReady?'<span class="sbadge b-ready">Ready</span>':'<span class="sbadge b-soon">In development</span>';
+    const cta=s.journeyReady?`<div class="seg-cta">View journey &#8594;</div>`:`<div class="seg-cta dim">Journey in development</div>`;
+    const bodyClick=s.journeyReady?`onclick="goJourney()"`:'' ;
+    return `<div class="seg-card${s.journeyReady?' live':'dim'}">
+      <div class="seg-ch"><span class="sdot" style="background:${s.color}"></span><span class="seg-name">${s.name}</span>${badge}</div>
+      <div class="seg-bd" ${bodyClick}>
+        <div class="seg-desc">${s.desc}</div>
+        <div class="ppips">${pipsHtml}</div>
+        <div class="proppips">${propHtml}</div>
+        ${cta}
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="hdr">
+    <div class="eyebrow">Project Pathways — Customer Experience</div>
+    <div class="hdr-title">ZD Travel — Customer Journey Framework</div>
+    <div class="hdr-sub">An overview of the seven stages of the ZD travel customer journey, from first discovery through to post-trip engagement. Detailed journeys are developed for each audience segment, reflecting how goals, emotions, and service requirements differ across the portfolio.</div>
+    <div class="hdr-tags"><span class="htag">Draft for review</span><span class="htag">Shopping: RetailMeNot &middot; VoucherCodes</span><span class="htag">Technology: CNET &middot; ZDNet &middot; Mashable &middot; PCMag &middot; Lifehacker &middot; Spiceworks</span></div>
+  </div>
+  <div class="body">
+    <div class="sec-label">Journey overview — seven stages</div>
+    <div class="stages-scroll"><div class="stages-row">${stageCards}</div></div>
+    <div class="bp-note" style="margin-top:16px;margin-bottom:28px"><strong>Service blueprint note.</strong> Each stage is documented at two levels: an <em>experience map</em> (goals, actions, emotions, and touchpoints from the traveller's perspective) and a <em>service blueprint</em> (on-stage delivery, backstage operations, technology and systems, people, process, and supporting agreements). The disruption stage carries an additional design note on ZD's differentiation opportunity relative to standard OTA and TMC models.</div>
+    <div class="sec-label">Macro segment journeys — click a persona name to view their profile directly</div>
+    <div class="seg-grid">${segCards}</div>
+  </div>`;
+}
+
+function renderJourney(){
+  const s=JSTAGES[jStage];
+  const d=JDATA[s.id];
+  const isD=s.special;
+  const pal=STAGE_PALETTE[jStage];
+  const myP=PERSONAS.filter(p=>p.seg==='value');
+
+  const navHtml=JSTAGES.map((st,i)=>{
+    const p=STAGE_PALETTE[i];
+    const isOn=i===jStage;
+    return `
+      <button class="spill" style="background:${isOn?p.bg:'transparent'};border-color:${isOn?p.border:'#d0cec8'};color:${isOn?p.name:'#5a5956'};font-weight:${isOn?'500':'400'}" onclick="setJStage(${i})">${st.label}</button>
+      ${i<JSTAGES.length-1?'<span class="sarr">›</span>':''}`;
+  }).join('');
+
+  const emoHtml=Object.entries(d.emotions).map(([k,v])=>`
+    <div class="emo-row"><span class="emo-n">${k}</span><div class="emo-tr"><div class="emo-fi" style="width:${v}%;background:${EMOCOLS[k]||'#888'}"></div></div><span class="emo-pc">${v}</span></div>
+  `).join('');
+
+  const pips=myP.map(p=>`<span class="ppip live" onclick="goPersona(${p.id},'value')" style="cursor:pointer">${p.title.replace('The ','')}</span>`).join('');
+
+  function lane(items){return `<div style="font-size:12px;color:#3d3d3a;line-height:1.65;padding:10px 12px;background:#fff;border-radius:5px;border:0.5px solid #e0ddd6"><ul style="padding-left:14px">${items.map(x=>`<li style="margin-bottom:4px">${x}</li>`).join('')}</ul></div>`;}
+
+  let main='';
+  if(jView==='exp'){
+    main=`<div class="g2">
+      <div class="card"><div class="clbl">Customer goals</div><ul>${d.goals.map(g=>`<li>${g}</li>`).join('')}</ul></div>
+      <div class="card"><div class="clbl">Customer actions</div><ul>${d.actions.map(a=>`<li>${a}</li>`).join('')}</ul></div>
+    </div>
+    <div class="card full"><div class="clbl">Key touchpoints</div><ul>${d.touchpoints.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;
+  } else {
+    if(isD){
+      main=`<div class="g2">
+        <div class="card wh"><div class="lhd lf">On stage — visible to traveller</div>${lane(d.front)}</div>
+        <div class="card wh"><div class="lhd lb">Backstage — operations</div>${lane(d.back)}</div>
+      </div><div class="g2">
+        <div class="card wh"><div class="lhd lt">Technology &amp; systems</div>${lane(d.tech)}</div>
+        <div class="card wh"><div class="lhd lpr">Process &amp; playbooks</div>${lane(d.process)}</div>
+      </div>
+      <div class="card wh full"><div class="lhd lp">People — tiered support model</div>
+        <div class="tgrid">${d.people.map((p,i)=>{
+          const labs=['Tier 1','Tier 2','Tier 3'];
+          const nms=['Self-service &amp; AI','General support agents','Specialist disruption'];
+          const pt=p.split(':');
+          return `<div class="tc"><div class="tnum">${labs[i]}</div><div class="tnm">${nms[i]}</div><div class="tds">${pt.length>1?pt[1].trim():p}</div></div>`;
+        }).join('')}</div>
+      </div>`;
+    } else {
+      main=`<div class="g2">
+        <div class="card wh"><div class="lhd lf">On stage — visible to traveller</div>${lane(d.front)}</div>
+        <div class="card wh"><div class="lhd lb">Backstage — operations</div>${lane(d.back)}</div>
+      </div><div class="g2">
+        <div class="card wh"><div class="lhd lt">Technology &amp; systems</div>${lane(d.tech)}</div>
+        <div class="card wh"><div class="lhd lp">People &amp; responsibilities</div>${lane(d.people)}</div>
+      </div><div class="g2">
+        <div class="card wh"><div class="lhd lpr">Process &amp; standards</div>${lane(d.process)}</div>
+        <div class="card wh"><div class="lhd ls">Supporting systems &amp; agreements</div>${lane(d.systems)}</div>
+      </div>`;
+    }
+  }
+
+  return `<div class="hdr">
+    <div class="eyebrow">Value &amp; Deal Seekers</div>
+    <div class="hdr-title">Customer Experience Journey</div>
+    <div class="hdr-sub">RetailMeNot (US) &middot; VoucherCodes (UK) &middot; Click a persona name to view their full profile</div>
+    <div class="hdr-tags" style="margin-top:10px">${pips}</div>
+  </div>
+  <div class="body">
+    <div class="stage-nav">${navHtml}</div>
+    <div class="vbar">
+      <span class="vlabel">View</span>
+      <button class="vbtn${jView==='exp'?' on':''}" onclick="setJView('exp')">Experience map — frontstage</button>
+      <button class="vbtn${jView==='bp'?' on':''}" onclick="setJView('bp')">Service blueprint — backstage</button>
+    </div>
+    <div class="jbody">
+      <div class="jsb">
+        <div class="slabel2" style="margin-bottom:7px">Stage intent</div>
+        <div class="intent-strip${isD?' disruption':''}" style="border-left-color:${pal.border};background:${pal.bg}"><div class="intent-txt" style="color:${pal.intent}">"${s.intent}"</div></div>
+        <div class="slabel2" style="margin-bottom:7px">Emotional temperature</div>
+        ${emoHtml}
+        <div class="slabel2" style="margin-top:12px;margin-bottom:7px">Properties</div>
+        <div class="si">RetailMeNot (US)</div><div class="si">VoucherCodes (UK)</div>
+      </div>
+      <div>
+        <div class="stitle" style="color:${pal.name}">${s.label}${isD?' — Disruption Handling':''}</div>
+        <div class="sdesc">${d.desc}</div>
+        ${isD&&d.disruptNote?`<div class="dbox"><div class="dlbl">Design note — differentiation opportunity</div><div class="dtxt">${d.disruptNote}</div></div>`:''}
+        ${main}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPersona(){
+  const p=PERSONAS.find(x=>x.id===activePersonaId);
+  if(!p) return '<div class="body"><p>Persona not found.</p></div>';
+  const seg=SEGS.find(s=>s.id===p.seg);
+  const mkts=p.markets.map(m=>`<span class="mkt-badge ${m==='US'?'mkt-us':'mkt-uk'}">${m}</span>`).join('');
+  const pubs=[...p.pubAlignment,...p.voucherProps].map(pub=>{
+    const s=PUB_STYLE[pub]||{bg:'#f1efe8',color:'#5a5956',border:'#d3d1c7'};
+    return `<span class="pub-badge" style="background:${s.bg};color:${s.color};border:0.5px solid ${s.border}">${pub}</span>`;
+  }).join('');
+  const stats=[
+    ['Publication type',p.publication],['Age range',p.age],['Gender profile',p.gender],
+    ['Income (US)',p.incomeUS||'—'],...(p.incomeUK?[['Income (UK)',p.incomeUK]]:[]),
+    ['Tech literacy',p.techLevel],['Trip frequency',p.tripFrequency],
+  ].map(([l,v])=>`<div class="stat-row"><span class="stat-lbl">${l}</span><span class="stat-val">${v}</span></div>`).join('');
+  const fields=[
+    ['Core motivation',p.motivation],['Travel style',p.travelStyle],['Booking behaviour',p.bookingBehaviour],
+    ['Pain points',p.painPoints],['Device & tool usage',p.deviceUsage],['Loyalty profile',p.loyaltyProfile],
+  ].map(([l,v])=>`<div class="prof-section"><div class="prof-slbl">${l}</div><div class="prof-text">${v}</div></div>`).join('');
+  const destUS=p.destinationsUS?p.destinationsUS.split(', ').map(d=>`<span class="dest-tag" style="background:${p.color}18;color:${p.color};border-color:${p.color}40">${d}</span>`).join(''):'';
+  const destUK=p.destinationsUK?p.destinationsUK.split(', ').map(d=>`<span class="dest-tag" style="background:${p.color}18;color:${p.color};border-color:${p.color}40">${d}</span>`).join(''):'';
+
+  return `<div class="hdr">
+    <div class="eyebrow">Persona profile — ${seg?.name||''}</div>
+    <div class="hdr-title">${p.title}</div>
+    <div class="hdr-sub">Full profile from Audience Persona Matrix v5. Segment: ${seg?.name||''}.</div>
+  </div>
+  <div class="body">
+    <div class="prof-grid">
+      <div>
+        <div class="prof-card">
+          <div class="prof-card-top" style="border-bottom-color:${p.color}30">
+            <div class="prof-icon">${p.icon}</div>
+            <div class="prof-id" style="color:${p.color}">Persona #${p.id}</div>
+            <div class="prof-name">${p.title}</div>
+            <div class="prof-markets">${mkts}</div>
+            ${pubs?`<div class="pub-badges">${pubs}</div>`:''}
+          </div>
+          <div class="prof-stats">${stats}</div>
+        </div>
+      </div>
+      <div class="prof-detail">
+        ${fields}
+        <div class="prof-section"><div class="prof-slbl">Destinations</div>
+          <div class="dest-grid">
+            ${destUS?`<div class="dest-card"><div class="dest-lbl">US destinations</div><div class="dest-tags">${destUS}</div></div>`:''}
+            ${destUK?`<div class="dest-card"><div class="dest-lbl">UK destinations</div><div class="dest-tags">${destUK}</div></div>`:''}
+          </div>
+        </div>
+        ${p.notes?`<div class="notes-box"><div class="notes-lbl">Notes</div><div class="notes-txt">${p.notes}</div></div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  let html=breadcrumb();
+  if(VIEW==='orient') html+=renderOrient();
+  else if(VIEW==='journey') html+=renderJourney();
+  else if(VIEW==='persona') html+=renderPersona();
+  document.getElementById('app').innerHTML=html;
+}
+render();
+</script>
